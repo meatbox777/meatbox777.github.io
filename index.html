@@ -71,12 +71,9 @@
 
 <script>
 async function checkPassword() {
-  const rawInput = document.getElementById("password").value;
-  const input = rawInput.trim();
+  const input = document.getElementById("password").value.trim();
 
-  console.log("Raw:", JSON.stringify(rawInput));
-  console.log("Trimmed:", JSON.stringify(input));
-  console.log("Length:", input.length);
+  const correctHash = "03ac674216f3e15c761ee1a5e255f067953623c8b388b4459e13f978d7c846f4";
 
   const encoder = new TextEncoder();
   const data = encoder.encode(input);
@@ -84,7 +81,12 @@ async function checkPassword() {
   const hashArray = Array.from(new Uint8Array(hashBuffer));
   const hashHex = hashArray.map(b => b.toString(16).padStart(2, "0")).join("");
 
-  console.log("Generated hash:", hashHex);
+  if (hashHex === correctHash) {
+    sessionStorage.setItem("authenticated", "true");
+    window.location.href = "protected.html";
+  } else {
+    alert("Incorrect password");
+  }
 }
 </script>
 </head>
