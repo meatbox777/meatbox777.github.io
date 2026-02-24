@@ -70,22 +70,20 @@
 </style>
 
 <script>
-async function checkPassword() {
+function checkPassword() {
   const input = document.getElementById("password").value.trim();
 
-  const correctHash = "03ac674216f3e15c761ee1a5e255f067953623c8b388b4459e13f978d7c846f4";
+  const validCodes = [
+    "247011727247",
+    "247022426247",
+    "247102825247"
+  ];
 
-  const encoder = new TextEncoder();
-  const data = encoder.encode(input);
-  const hashBuffer = await crypto.subtle.digest("SHA-256", data);
-  const hashArray = Array.from(new Uint8Array(hashBuffer));
-  const hashHex = hashArray.map(b => b.toString(16).padStart(2, "0")).join("");
-
-  if (hashHex === correctHash) {
+  if (validCodes.includes(input)) {
     sessionStorage.setItem("authenticated", "true");
     window.location.href = "protected.html";
   } else {
-    alert("Incorrect password");
+    alert("Incorrect code");
   }
 }
 </script>
